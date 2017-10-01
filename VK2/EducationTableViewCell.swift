@@ -14,7 +14,6 @@ class EducationTableViewCell: UITableViewCell {
     @IBOutlet weak var typeOfEducationLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
     func prepareCell(with user: User, cellForRowAt indexPath: IndexPath){
         typeOfEducationLabel.text = user.information?[indexPath.section].rowName[indexPath.row]
@@ -24,8 +23,6 @@ class EducationTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
 }

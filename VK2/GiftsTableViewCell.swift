@@ -15,6 +15,7 @@ class GiftsTableViewCell: UITableViewCell {
     @IBOutlet weak var giftImageView3: UIImageView!
     @IBOutlet weak var giftImageView2: UIImageView!
     @IBOutlet weak var giftImageView1: UIImageView!
+    
     func prepareCell(with user: User, cellForRowAt indexPath: IndexPath){
         let amountOfGifts = user.information?[indexPath.section].rowImage.count
         amountOfGiftsLabel.text = user.information?[indexPath.section].rowName[indexPath.row]
@@ -30,8 +31,6 @@ class GiftsTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
 }

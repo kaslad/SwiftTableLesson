@@ -8,20 +8,20 @@
 
 import UIKit
 struct User{
-    var name : String
-    var surname : String
-    var onlineStatus : String
-    var avatar : UIImage
-    var information : [UserInformation]? = nil
+    var name: String
+    var surname: String
+    var onlineStatus: String
+    var avatar: UIImage
+    var information: [UserInformation]? = nil
     
-    init(fromName name: String,fromSurname surname:String, fromOnlineStatus onlineStatus : String,
-    fromAvatar avatar : UIImage){
+    init(fromName name: String, fromSurname surname: String, fromOnlineStatus onlineStatus: String,
+         fromAvatar avatar: UIImage){
         self.name = name
         self.surname = surname
         self.onlineStatus = onlineStatus
         self.avatar = avatar
     }
-    init(fromName name: String,fromSurname surname:String, fromOnlineStatus onlineStatus: String,
+    init(fromName name: String, fromSurname surname: String, fromOnlineStatus onlineStatus: String,
          fromAvatar avatar: UIImage, fromInformation information: [UserInformation]){
         self.name = name
         self.surname = surname
@@ -31,9 +31,9 @@ struct User{
     }
 }
     struct UserInformation {
-        var sectionName : String
-        var rowName : [String]
-        var rowImage : [UIImage]
-        var rowFilling : [String]
+        var sectionName: String
+        var rowName: [String]
+        var rowImage: [UIImage]
+        var rowFilling: [String]
 }
 

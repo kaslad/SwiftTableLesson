@@ -11,8 +11,7 @@ import UIKit
 class InformationTableViewController: UITableViewController {
     @IBOutlet weak var HeaderView: UIView!
     
-    
-    @IBOutlet weak var avatarUIImageView: UIImageView!
+    @IBOutlet weak var avatarImageView: UIImageView!
     
     let mainInfoIdentifier = "mainInformationCell"
     let contactsIdentifier = "contactsCell"
@@ -31,33 +30,27 @@ class InformationTableViewController: UITableViewController {
     var educationSection = 4
     var giftsSection = 5
     var interestsSection = 6
-    var curUser = 0
+    var currentUser = 0
     
     let numberOfSections = 7
-    let headerHeight = 20
-    let headerPlainSectionHeight = 5
+    let headerHeight: CGFloat = 20
+    let headerPlainSectionHeight: CGFloat = 5
     
-    let rowHeight = 55
-    let giftSectionRowHeight = 100
+    let rowHeight: CGFloat = 55
+    let giftSectionRowHeight: CGFloat = 100
 
     var users : [User] = [User(fromName: "Vlad", fromSurname: "Kok", fromOnlineStatus: "new", fromAvatar: #imageLiteral(resourceName: "Photo2"), fromInformation: [UserInformation(sectionName: "", rowName: ["Change status"], rowImage: [], rowFilling: []),UserInformation(sectionName: "", rowName: ["День рождения", "Семейное положение", "Языки", "Братья, сестры"], rowImage: [], rowFilling: ["24 января 1999", "холост", "spanish, english", "Костя Каш"]), UserInformation(sectionName: "Контакты", rowName: [], rowImage: [#imageLiteral(resourceName: "PhoneIcon"),#imageLiteral(resourceName: "HomeIcon"), #imageLiteral(resourceName: "VKIcon")], rowFilling: ["515322", "Kazan", "vk.com/kaslad"]), UserInformation(sectionName: "Карьера", rowName: ["KTA"], rowImage: [], rowFilling: ["tennis coach"]), UserInformation(sectionName: "Образование", rowName: ["Вуз", "Школа"], rowImage: [], rowFilling: ["КФУ (бывш. КГУ им. Ульянова-Ленина)", "Лицей ИГУ"]), UserInformation(sectionName: "", rowName: ["32 подарка"], rowImage: [#imageLiteral(resourceName: "Gift2"),#imageLiteral(resourceName: "Gift2"),#imageLiteral(resourceName: "Gift1"),#imageLiteral(resourceName: "Gift1")], rowFilling: []), UserInformation(sectionName: "", rowName: ["Интересные страницы", "Заметки", "Документы"], rowImage: [], rowFilling: ["222", "30", "7"])] ), User(fromName: "Vlad", fromSurname: "Kok", fromOnlineStatus: "new", fromAvatar: #imageLiteral(resourceName: "Photo2"), fromInformation: [UserInformation(sectionName: "", rowName: ["Live is the best"], rowImage: [], rowFilling: []),UserInformation(sectionName: "", rowName: ["День рождения", "Семейное положение", "Языки", "Братья, сестры"], rowImage: [], rowFilling: ["24 января 1997", "женат", "english", "Владос Кашапов"]), UserInformation(sectionName: "Контакты", rowName: [], rowImage: [#imageLiteral(resourceName: "PhoneIcon"),#imageLiteral(resourceName: "HomeIcon"), #imageLiteral(resourceName: "VKIcon")], rowFilling: ["522222", "irkutsk", "vk.com/kostya"]), UserInformation(sectionName: "Карьера", rowName: ["IOS LAB"], rowImage: [], rowFilling: ["developer"]), UserInformation(sectionName: "Образование", rowName: ["Вуз", "Школа"], rowImage: [], rowFilling: ["КФУ (бывш. КГУ им. Ульянова-Ленина)", "Лицей 38"]), UserInformation(sectionName: "", rowName: ["65 подарков"], rowImage: [#imageLiteral(resourceName: "Gift1"),#imageLiteral(resourceName: "Gift2"),#imageLiteral(resourceName: "Gift1"),#imageLiteral(resourceName: "Gift1")], rowFilling: []), UserInformation(sectionName: "", rowName: ["Интересные страницы", "Заметки", "Документы"], rowImage: [], rowFilling: ["2", "0", "6"])]
 )]
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.tableHeaderView = HeaderView
+     avatarImageView.layer.cornerRadius = avatarImageView.frame.size.width / 2
+        avatarImageView.clipsToBounds = true
+        registerNibs()
+        setupRefreshControl()
         
-        avatarUIImageView.layer.cornerRadius = avatarUIImageView.frame.size.width / 2
-        avatarUIImageView.clipsToBounds = true
-        
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        
-        
+    }
+    func registerNibs() {
         let nib = UINib(nibName: "StatusTableViewCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: statusIdentifier)
         tableView.register(UINib(nibName: "MainInformationTableViewCell", bundle: nil), forCellReuseIdentifier: mainInfoIdentifier)
@@ -66,194 +59,134 @@ class InformationTableViewController: UITableViewController {
         tableView.register(UINib(nibName: "EducationTableViewCell", bundle: nil), forCellReuseIdentifier: educationIdentifier)
         tableView.register(UINib(nibName: "GiftsTableViewCell", bundle: nil), forCellReuseIdentifier: giftsIdentifier)
         tableView.register(UINib(nibName: "InterestsTableViewCell", bundle: nil), forCellReuseIdentifier: interestsIdentifier)
-        refresh()
-
-
-        
     }
-    func refresh() {
+    func setupRefreshControl() {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshTableView(sender:)), for: .valueChanged)
         tableView.refreshControl = refreshControl
     
     }
     func refreshTableView(sender: UIRefreshControl) {
-        if curUser == 0 {
-            curUser = 1
+        if currentUser == 0 {
+            currentUser = 1
         }
         else{
-            curUser = 0
+            currentUser = 0
         }
         self.tableView.reloadData()
         sender.endRefreshing()
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return numberOfSections
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         if section == statusSection {
-            return (users[curUser].information?[section].rowName.count)!
+            if let arrayCount =  users[currentUser].information?[section].rowName.count {
+                return arrayCount
+            }
         }
         if section == mainInformationSection {
-            return (users[curUser].information?[section].rowName.count)!
+            if let arrayCount =  users[currentUser].information?[section].rowName.count {
+                return arrayCount
+            }
         }
         if section == contactsSection{
-            return (users[curUser].information?[section].rowFilling.count)!
+            if let arrayCount =  users[currentUser].information?[section].rowFilling.count {
+                return arrayCount
+            }
         }
         if section == giftsSection{
-            return (users[curUser].information?[section].rowName.count)!
+            if let arrayCount =  users[currentUser].information?[section].rowName.count {
+                return arrayCount
+            }
         }
         if section == careerSection{
-            return (users[curUser].information?[section].rowName.count)!
+            if let arrayCount =  users[currentUser].information?[section].rowName.count {
+                return arrayCount
+            }
         }
         if section == interestsSection{
-            return (users[curUser].information?[section].rowName.count)!
+            if let arrayCount =  users[currentUser].information?[section].rowName.count {
+                return arrayCount
+            }
         }
         if section == educationSection{
-            return (users[curUser].information?[section].rowName.count)!
+            if let arrayCount =  users[currentUser].information?[section].rowName.count {
+                return arrayCount
+            }
         }
         return 0
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == statusSection{
             let cell = tableView.dequeueReusableCell(withIdentifier: statusIdentifier, for: indexPath) as! StatusTableViewCell
-            cell.prepareCell(with: users[curUser], cellForRowAt: indexPath)
+            cell.prepareCell(with: users[currentUser], cellForRowAt: indexPath)
             return cell
         }
         if indexPath.section == mainInformationSection{
             let cell = tableView.dequeueReusableCell(withIdentifier:
                 mainInfoIdentifier, for: indexPath) as! MainInformationTableViewCell
-            cell.prepareCell(with: users[curUser], cellForRowAt: indexPath)
+            cell.prepareCell(with: users[currentUser], cellForRowAt: indexPath)
             return cell
 
         }
         if indexPath.section == giftsSection{
             let cell = tableView.dequeueReusableCell(withIdentifier:
                 giftsIdentifier, for: indexPath) as! GiftsTableViewCell
-            cell.prepareCell(with: users[curUser], cellForRowAt: indexPath)
+            cell.prepareCell(with: users[currentUser], cellForRowAt: indexPath)
             return cell
             
         }
         if indexPath.section == careerSection{
             let cell = tableView.dequeueReusableCell(withIdentifier:
                 careerIdentifier, for: indexPath) as! CareerTableViewCell
-            cell.prepareCell(with: users[curUser], cellForRowAt: indexPath)
+            cell.prepareCell(with: users[currentUser], cellForRowAt: indexPath)
             return cell
             
         }
         if indexPath.section == educationSection{
             let cell = tableView.dequeueReusableCell(withIdentifier:
                 educationIdentifier, for: indexPath) as! EducationTableViewCell
-            cell.prepareCell(with: users[curUser], cellForRowAt: indexPath)
+            cell.prepareCell(with: users[currentUser], cellForRowAt: indexPath)
             return cell
             
         }
-        if indexPath.section == contactsSection{
-            print(indexPath.section)
+        if indexPath.section == contactsSection {
             let cell = tableView.dequeueReusableCell(withIdentifier:
                 contactsIdentifier, for: indexPath) as! ContactsTableViewCell
-            cell.prepareCell(with: users[curUser], cellForRowAt: indexPath)
+            cell.prepareCell(with: users[currentUser], cellForRowAt: indexPath)
             return cell
         }
 
         let cell = tableView.dequeueReusableCell(withIdentifier:
                 interestsIdentifier, for: indexPath) as! InterestsTableViewCell
-        cell.prepareCell(with: users[curUser], cellForRowAt: indexPath)
+        cell.prepareCell(with: users[currentUser], cellForRowAt: indexPath)
 
             return cell
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return users[curUser].information?[section].sectionName
+        return users[currentUser].information?[section].sectionName
 }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == giftsSection{
-            return CGFloat(giftSectionRowHeight)
+            return giftSectionRowHeight
         }
-        return CGFloat(rowHeight)
+        return rowHeight
     }
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if(section == statusSection || section == mainInformationSection || section == giftsSection || section == interestsSection ){
-            return CGFloat(headerPlainSectionHeight)
+            return headerPlainSectionHeight
         }
-        return CGFloat(headerHeight)
+        return headerHeight
     }
 }
 
-    /*override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView()
 
-        if section == statusSection{
-            let headerCell = tableView.dequeueReusableCell(withIdentifier: statusIdentifier) as! StatusTableViewCell
-            headerCell.prepareCell(with: currentUser)
-            headerView.addSubview(headerCell)
-        }
-        return headerView
-    }
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
-    }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    
- */
-
-}*/

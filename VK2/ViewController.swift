@@ -9,13 +9,9 @@
 import UIKit
 
 class ViewController: UIViewController {
-    //6 исправление Label
     @IBOutlet weak var ageAndCityLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
-    
-    //2 испр
     @IBOutlet weak var typeButton: UIButton!
-    //3 
     @IBOutlet weak var avatarUiImageView: UIImageView!
     @IBOutlet weak var followersButton: UIButton!
     @IBOutlet weak var friendsButton: UIButton!
@@ -23,7 +19,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var groupButton: UIButton!
     @IBOutlet weak var photosButton: UIButton!
     
-    //1 исправление
     let arrayOfNames: Array<String> = ["Влад","Nikita","Петя"]
     let arrayOfCities: Array<String> =
         ["Казань", "Иркутск"]
@@ -35,7 +30,6 @@ class ViewController: UIViewController {
     
         avatarUiImageView.layer.cornerRadius = avatarUiImageView.frame.size.width / 2
         avatarUiImageView.clipsToBounds = true
-        //fillButtonsWithValues() 5 исправление
         fillMainPageUserInformationWithValues()
     }
     func fillMainPageUserInformationWithValues(){
@@ -60,7 +54,7 @@ class ViewController: UIViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        
     }
 
 
